@@ -11,15 +11,11 @@ class TicTacToe
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6]
-    
     ]
   
   def initialize
-    
     @board = Array.new(9, " ")
-    
   end
-  
     
   def display_board
     puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
@@ -30,43 +26,30 @@ class TicTacToe
   end
   
   def input_to_index(input)
-    
     input.to_i - 1
-    
   end
   
   def move(index, token = "X")
-    
     @board[index] = token
-    
   end
   
   def position_taken?(index)
-    
     @board[index] != " "
-    
   end
   
   def valid_move?(index)
-    
     !position_taken?(index) && index.between?(0, 8)
-    
   end
   
   def turn_count
-    
     @board.count {|pos| pos == "X" || pos == "O"}
-    
   end
   
   def current_player
-    
     self.turn_count % 2 == 0 ? "X" : "O"
-    
   end
   
   def turn
-    
     puts "Please enter 1-9:"
     input = gets.strip
     index = input_to_index(input)
@@ -80,7 +63,6 @@ class TicTacToe
   end
   
   def won?
-    
     WIN_COMBINATIONS.any? do |combo|
       
       if position_taken?(combo[0]) && 
@@ -92,41 +74,39 @@ class TicTacToe
   end
   
   def full?
-    
     self.turn_count == 9
-    
   end
   
   def draw?
-    
     self.full? && !self.won?
-    
   end
   
   def over?
-    
     self.draw? || self.won?
-    
   end
   
   def winner
-    
     self.won? ? @board[self.won?[0]] : nil
-    
   end
   
   def play
-    
     while !over?
         turn
     end
-    
     # self.won? ? "Congratulations #{self.winner}!" : "Cat's Game!"
     puts "Congratulations #{self.winner}!" if self.won?
     puts "Cat's Game!" if self.draw?
-    
+    self.play_again
   end
   
-  
-  
+  def play_again
+    puts "Would you like to play again? Y/N"
+    input = gets.strip.upcase
+    if input == "Y"
+      @board = Array.new(9, " ")
+      play
+    else
+      puts "Thanks for playing!"
+    end
+  end
 end
